@@ -103,7 +103,7 @@ const CustomDestination = () => {
           destinationpackageid,
           values.email,
           values.phone,
-          values.newDate,
+          newDate,
           duration,
           values.placeoption
         ).then(

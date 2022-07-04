@@ -74,11 +74,11 @@ const Download = () => {
       Product.ID,
       values.email,
       values.phone,
-      values.newDate,
+      newDate,
       Product.Duration
     ).then(
       (response) => {
-        window.location.reload();
+        // window.location.reload();
       },
       (error) => {}
     );

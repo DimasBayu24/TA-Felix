@@ -68,6 +68,7 @@ const orderHolidayPackage = (
   OrderDate,
   Duration
 ) => {
+  console.log("data date ,", OrderDate);
   const Status = "Not Done";
   const IsPackage = true;
   return axios.post(API_URL + "order/package", {
