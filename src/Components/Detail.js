@@ -78,7 +78,7 @@ const Download = () => {
       Product.Duration
     ).then(
       (response) => {
-        // window.location.reload();
+        window.location.reload();
       },
       (error) => {}
     );
