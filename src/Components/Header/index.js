@@ -171,19 +171,8 @@ export class HeaderNav extends Component {
               >
                 <div className="sign-in">
                   {/* <i className="fas fa-user-circle sign-in-user" /> */}
-                  <div className="lastnamearya-img">
-                    <img
-                      src="https://secure.gravatar.com/avatar/413b990ccd2cf5ba69d609fdba4f0302"
-                      alt="lastnamearya"
-                    />
-                  </div>
-                  <p style={{ color: "#ec1943", marginLeft: "5px" }}>
-                    lastnamearya
-                    <span className="arrow-down">
-                      {" "}
-                      <i className="fas fa-angle-down" />
-                    </span>
-                  </p>
+                  <div className="lastnamearya-img" />
+                  <p style={{ color: "#ec1943", marginLeft: "5px" }} />
                 </div>
               </a>
               <Link
@@ -191,12 +180,7 @@ export class HeaderNav extends Component {
                 style={{
                   textDecoration: "none",
                 }}
-              >
-                <div className="download-app">
-                  <img src={MobileApp} id="mobile-app" alt="Download our App" />
-                  <p style={{ color: "#24a1b2" }}>Download App</p>
-                </div>
-              </Link>
+              />
             </div>
           </div>
         </div>
