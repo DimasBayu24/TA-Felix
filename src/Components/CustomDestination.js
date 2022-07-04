@@ -19,13 +19,15 @@ import {
   Switch,
   TreeSelect,
 } from "antd";
-import { Button, Descriptions } from "antd";
+import { Button, Descriptions, Modal } from "antd";
 const { Option } = Select;
 const children = [];
 
 const CustomDestination = () => {
   const [collection, setCollection] = useState(undefined);
   const [chosen, setChosen] = useState(false);
+  const [trans, setTrans] = useState(0);
+  const [value, setValue] = useState(undefined);
   const [cities, setCities] = useState(undefined);
   const [transportations, setTransportations] = useState(undefined);
   const [pick, setPick] = useState(undefined);
@@ -33,6 +35,8 @@ const CustomDestination = () => {
   const [transPick, setTransPick] = useState([]);
   const [Product, setProduct] = useState(undefined);
   const [Picture, setPicture] = useState(undefined);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const [totalPrice, setTotalPrice] = useState(0);
   const { RangePicker } = DatePicker;
   const { TextArea } = Input;
@@ -55,6 +59,15 @@ const CustomDestination = () => {
   };
 
   const handleChangeTrans = (value) => {
+    UserService.getTransById(value).then(
+      (response) => {
+        console.log("mobil apa nich ", response.data);
+        setTrans(response.data);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
     console.log(`selected ${value}`);
   };
   const handleChange = (value) => {
@@ -81,42 +94,43 @@ const CustomDestination = () => {
     setComponentDisabled(disabled);
   };
   const [form] = Form.useForm();
-
-  const onFinish = (values) => {
-    console.log(values);
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+  const handleOk = () => {
+    console.log(value);
     console.log("Jumlah harga ", totalPrice);
-    const a = values.orderdate.format("YYYY-MM-DD");
+    const a = value.orderdate.format("YYYY-MM-DD");
     const newDate = new Date(a);
-    let size = 0;
     const destinationpackageid = null;
-    const duration = values.placeoption.length;
-    console.log("oke ", values.orderdate.format("YYYY-MM-DD"));
-    UserService.getTransById(values.transportation).then(
+    const totalTotalPrice = trans.Price + totalPrice;
+    const duration = value.placeoption.length;
+    console.log("oke ", value.orderdate.format("YYYY-MM-DD"));
+    UserService.orderHolidayPackageCustom(
+      value.fullname,
+      value.transportation,
+      trans.Size,
+      totalTotalPrice,
+      destinationpackageid,
+      value.email,
+      value.phone,
+      newDate,
+      duration,
+      value.placeoption
+    ).then(
       (response) => {
-        console.log(response.data.Size);
-        size = response.data.Size;
-        UserService.orderHolidayPackageCustom(
-          values.fullname,
-          values.transportation,
-          size,
-          totalPrice,
-          destinationpackageid,
-          values.email,
-          values.phone,
-          newDate,
-          duration,
-          values.placeoption
-        ).then(
-          (response) => {
-            window.location.reload();
-          },
-          (error) => {}
-        );
+        window.location.reload();
       },
-      (error) => {
-        console.log(error);
-      }
+      (error) => {}
     );
+    // setIsModalVisible(false);
+  };
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+  const onFinish = (values) => {
+    showModal();
+    setValue(values);
   };
   const onClick = ({ key }) => {
     UserService.getPickById(1).then(
@@ -271,7 +285,7 @@ const CustomDestination = () => {
                     style={{ width: "100%", padding: "3rem 4rem" }}
                   >
                     <div style={{ display: "flex", justifyContent: "center" }}>
-                      <h1>Bali</h1>
+                      <h1>{Picture ? Picture[0].Place : "loading"}</h1>
                     </div>
 
                     <br />
@@ -432,6 +446,15 @@ const CustomDestination = () => {
       </div>
       <TopCities />
       <Footer />
+      <Modal
+        title="Confirm Order"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <p>IDR {totalPrice + trans.Price}</p>
+        <p>Are you sure?</p>
+      </Modal>
     </div>
   );
 };

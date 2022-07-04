@@ -92,7 +92,7 @@ function DetailPageCustom(props) {
           style={{ width: "100%", padding: "3rem 4rem" }}
         >
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <h1>Bali</h1>
+            <h1>{Product ? Product.DestinationCity : "loading"}</h1>
           </div>
 
           <br />
