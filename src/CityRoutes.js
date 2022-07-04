@@ -5,6 +5,7 @@ import NewYork from "./Components/NewYork";
 import AppStore from "./Components/AppStore";
 import CustomDestination from "./Components/CustomDestination";
 import history from "./history";
+import Upload from "./Components/Upload";
 
 const CityRoutes = () => (
   <BrowserRouter history={history}>
@@ -25,6 +26,7 @@ const CityRoutes = () => (
       <Route exact path="/cities/budapest" element={<MainHome />} />
       <Route exact path="/cities/edinburg" element={<MainHome />} />
       <Route exact path="/cities/florence" element={<MainHome />} />
+      <Route exact path="/upload-payment" element={<Upload />} />
       <Route exact path="/detail" element={<AppStore />} />
       <Route exact path="/custom-destination" element={<CustomDestination />} />
     </Routes>

@@ -14,6 +14,10 @@ const getCities = () => {
   return axios.get(API_URL + "cities");
 };
 
+const paymentUrl = (id, PictureUrl) => {
+  return axios.patch(API_URL + `upload-payment/patch?id=${id}`, { PictureUrl });
+};
+
 const getTransportations = () => {
   return axios.get(API_URL + "transportations-custom");
 };
@@ -147,6 +151,7 @@ const UserService = {
   getTransportations,
   getTransById,
   orderHolidayPackageCustom,
+  paymentUrl,
 };
 
 export default UserService;
