@@ -5,6 +5,13 @@ import TopCities from "./TopCities";
 import Footer from "./footer";
 import UserService from "../services/user.service";
 import { Dropdown, Menu, Space, message } from "antd";
+import {
+  HomeOutlined,
+  LoadingOutlined,
+  SettingFilled,
+  PhoneFilled,
+  SyncOutlined,
+} from "@ant-design/icons";
 import { DownOutlined, SmileOutlined } from "@ant-design/icons";
 import { Row, Col } from "antd";
 import {
@@ -442,6 +449,22 @@ const CustomDestination = () => {
         ) : (
           <div />
         )}
+        <div style={{ marginTop: 20 }} />
+        <p>No suitable destination for you?</p>
+        <p>Click below to contact our team via Whatsapp </p>
+        <Button
+          style={{
+            color: "white",
+            backgroundColor: "#25D366",
+            borderRadius: 20,
+            fontSize: 20,
+            padding: 20,
+          }}
+          href="https://wa.me/+6281332122490"
+        >
+          <PhoneFilled />
+          +62 813 3212 2490
+        </Button>
         {/* <Form /> */}
       </div>
       <TopCities />

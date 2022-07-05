@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import Slider from 'react-slick';
-import { Left, Right } from './Arrows';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import './Styles/top-cities.css';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import Slider from "react-slick";
+import { Left, Right } from "./Arrows";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "./Styles/top-cities.css";
+import UserService from "../services/user.service";
+import { data } from "jquery";
 
 class TopCities extends Component {
   render() {
@@ -14,13 +16,13 @@ class TopCities extends Component {
           <h1>Top Cities on Headout</h1>
           <hr
             style={{
-              backgroundColor: '#ffbb58',
-              width: '75px',
-              height: '2px',
-              border: 'none',
-              marginTop: '0px',
-              marginLeft: '0px',
-              marginBottom: '20px'
+              backgroundColor: "#ffbb58",
+              width: "75px",
+              height: "2px",
+              border: "none",
+              marginTop: "0px",
+              marginLeft: "0px",
+              marginBottom: "20px",
             }}
           />
           <div className="top-cities-carousel-wrap">
@@ -28,10 +30,10 @@ class TopCities extends Component {
           </div>
           <hr
             style={{
-              height: '1px',
-              color: '#e7e7e7',
-              borderTop: 'none',
-              borderLeft: 'none'
+              height: "1px",
+              color: "#e7e7e7",
+              borderTop: "none",
+              borderLeft: "none",
             }}
           />
         </div>
@@ -42,6 +44,21 @@ class TopCities extends Component {
 }
 
 class CitySlider extends React.Component {
+  state = {
+    data: undefined,
+  };
+  componentDidMount() {
+    UserService.getPublicContent().then(
+      (response) => {
+        this.setState({ data: response.data });
+        console.log(response.data);
+        // this.setState({ collection: response.data });
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
   render() {
     var settings = {
       infinite: true,
@@ -49,20 +66,21 @@ class CitySlider extends React.Component {
       slidesToShow: 5,
       slidesToScroll: 5,
       nextArrow: <Right />,
-      prevArrow: <Left />
+      prevArrow: <Left />,
     };
     return (
       <Slider {...settings}>
-        {topCitiesData &&
-          topCitiesData.map(({ id, city, url, description, route }) => (
-            <Link
-              to={{ pathname: `/cities/${route}` }}
-              key={id}
-              className="link"
-            >
-              <CityCard city={city} url={url} description={description} />
-            </Link>
-          ))}
+        {this.state.data ? (
+          this.state.data.map((item) => (
+            <CityCard
+              city={item.PlaceOption}
+              url={item.PictureUrl}
+              description={item.Description}
+            />
+          ))
+        ) : (
+          <div />
+        )}
       </Slider>
     );
   }
@@ -77,7 +95,7 @@ class CityCard extends Component {
           <div
             className="city-card-img"
             style={{
-              backgroundImage: url
+              backgroundImage: url,
             }}
           />
           <div className="city-details">
@@ -96,124 +114,124 @@ class CityCard extends Component {
 const topCitiesData = [
   {
     id: 1,
-    city: 'New York',
-    route: 'new-york',
-    description: 'Take a bite of the Big Apple',
+    city: "New York",
+    route: "new-york",
+    description: "Take a bite of the Big Apple",
     url:
-      'https://cdn-imgix.headout.com/cities/new-york/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min'
+      "https://cdn-imgix.headout.com/cities/new-york/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min",
   },
   {
     id: 2,
-    city: 'Las Vegas',
-    route: 'las-vegas',
+    city: "Las Vegas",
+    route: "las-vegas",
     description: "An offer you can't refuse",
     url:
-      'https://cdn-imgix.headout.com/cities/las-vegas/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min'
+      "https://cdn-imgix.headout.com/cities/las-vegas/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min",
   },
   {
     id: 3,
-    city: 'Rome',
-    route: 'rome',
-    description: 'Roam the eternal city',
+    city: "Rome",
+    route: "rome",
+    description: "Roam the eternal city",
     url:
-      'https://cdn-imgix.headout.com/cities/rome/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min'
+      "https://cdn-imgix.headout.com/cities/rome/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min",
   },
   {
     id: 4,
-    city: 'Paris',
-    route: 'paris',
+    city: "Paris",
+    route: "paris",
     description: "C'est La Vie",
     url:
-      'https://cdn-imgix.headout.com/cities/paris/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min'
+      "https://cdn-imgix.headout.com/cities/paris/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min",
   },
   {
     id: 5,
-    city: 'London',
-    route: 'london',
-    description: 'For everything hunky-dory',
+    city: "London",
+    route: "london",
+    description: "For everything hunky-dory",
     url:
-      'https://cdn-imgix.headout.com/cities/london/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min'
+      "https://cdn-imgix.headout.com/cities/london/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min",
   },
   {
     id: 6,
-    city: 'Dubai',
-    route: 'dubai',
-    description: 'An Oasis like no other',
+    city: "Dubai",
+    route: "dubai",
+    description: "An Oasis like no other",
     url:
-      'https://cdn-imgix.headout.com/cities/dubai/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min'
+      "https://cdn-imgix.headout.com/cities/dubai/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min",
   },
   {
     id: 7,
-    city: 'Barcelona',
-    route: 'barcelona',
-    description: 'Hacer Peunte a Catalunya',
+    city: "Barcelona",
+    route: "barcelona",
+    description: "Hacer Peunte a Catalunya",
     url:
-      'https://cdn-imgix.headout.com/cities/barcelona/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min'
+      "https://cdn-imgix.headout.com/cities/barcelona/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min",
   },
   {
     id: 8,
-    city: 'Madrid',
-    route: 'madrid',
-    description: 'Discover the hear of Spain',
+    city: "Madrid",
+    route: "madrid",
+    description: "Discover the hear of Spain",
     url:
-      'https://cdn-imgix.headout.com/cities/madrid/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min'
+      "https://cdn-imgix.headout.com/cities/madrid/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min",
   },
   {
     id: 9,
-    city: 'Singapore',
-    route: 'singapore',
-    description: 'The Lion City',
+    city: "Singapore",
+    route: "singapore",
+    description: "The Lion City",
     url:
-      'https://cdn-imgix.headout.com/cities/singapore/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min'
+      "https://cdn-imgix.headout.com/cities/singapore/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min",
   },
   {
     id: 10,
-    city: 'Venice',
-    route: 'venice',
-    description: 'Enjoy and have fun in the City',
+    city: "Venice",
+    route: "venice",
+    description: "Enjoy and have fun in the City",
     url:
-      'https://cdn-imgix.headout.com/cities/venice/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min'
+      "https://cdn-imgix.headout.com/cities/venice/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min",
   },
   {
     id: 11,
-    city: 'Milan',
-    route: 'milan',
-    description: 'Enjoy and have fun in the City',
+    city: "Milan",
+    route: "milan",
+    description: "Enjoy and have fun in the City",
     url:
-      'https://cdn-imgix.headout.com/cities/milan/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min'
+      "https://cdn-imgix.headout.com/cities/milan/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min",
   },
   {
     id: 12,
-    city: 'Naples',
-    route: 'naples',
-    description: 'Enjoy and have fun in the City',
+    city: "Naples",
+    route: "naples",
+    description: "Enjoy and have fun in the City",
     url:
-      'https://cdn-imgix.headout.com/cities/naples/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min'
+      "https://cdn-imgix.headout.com/cities/naples/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min",
   },
   {
     id: 13,
-    city: 'Budapest',
-    route: 'budapest',
-    description: 'Enjoy and have fun in the City',
+    city: "Budapest",
+    route: "budapest",
+    description: "Enjoy and have fun in the City",
     url:
-      'https://cdn-imgix.headout.com/cities/budapest/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min'
+      "https://cdn-imgix.headout.com/cities/budapest/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min",
   },
   {
     id: 14,
-    city: 'Edinburg',
-    route: 'edinburg',
-    description: 'Enjoy and have fun in the City',
+    city: "Edinburg",
+    route: "edinburg",
+    description: "Enjoy and have fun in the City",
     url:
-      'https://cdn-imgix.headout.com/cities/edinburgh/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min'
+      "https://cdn-imgix.headout.com/cities/edinburgh/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min",
   },
   {
     id: 15,
-    city: 'Florence',
-    route: 'florence',
-    description: 'Enjoy and have fun in the City',
+    city: "Florence",
+    route: "florence",
+    description: "Enjoy and have fun in the City",
     url:
-      'https://cdn-imgix.headout.com/cities/florence/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min'
-  }
+      "https://cdn-imgix.headout.com/cities/florence/images/mobile/morning.jpg?auto=compress&fm=webp&w=412.5&h=486&crop=faces&fit=min",
+  },
 ];
 
 export default TopCities;
