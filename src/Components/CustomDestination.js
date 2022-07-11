@@ -4,6 +4,7 @@ import Detail from "./DetailCustom";
 import TopCities from "./TopCities";
 import Footer from "./footer";
 import UserService from "../services/user.service";
+import { Divider, notification } from "antd";
 import { Dropdown, Menu, Space, message } from "antd";
 import {
   HomeOutlined,
@@ -11,6 +12,14 @@ import {
   SettingFilled,
   PhoneFilled,
   SyncOutlined,
+} from "@ant-design/icons";
+import {
+  BorderBottomOutlined,
+  BorderTopOutlined,
+  RadiusBottomleftOutlined,
+  RadiusBottomrightOutlined,
+  RadiusUpleftOutlined,
+  RadiusUprightOutlined,
 } from "@ant-design/icons";
 import { DownOutlined, SmileOutlined } from "@ant-design/icons";
 import { Row, Col } from "antd";
@@ -113,6 +122,9 @@ const CustomDestination = () => {
     const totalTotalPrice = trans.Price + totalPrice;
     const duration = value.placeoption.length;
     console.log("oke ", value.orderdate.format("YYYY-MM-DD"));
+    // openNotification("top");
+    setIsModalVisible(false);
+
     UserService.orderHolidayPackageCustom(
       value.fullname,
       value.transportation,
@@ -126,7 +138,11 @@ const CustomDestination = () => {
       value.placeoption
     ).then(
       (response) => {
-        window.location.reload();
+        setChosen(false);
+        openNotification("top");
+        form.resetFields();
+
+        // window.location.reload();
       },
       (error) => {}
     );
@@ -480,6 +496,14 @@ const CustomDestination = () => {
       </Modal>
     </div>
   );
+};
+
+const openNotification = (placement) => {
+  notification.info({
+    message: `Order has been created`,
+    description: "Please check your email for continue the payment",
+    placement,
+  });
 };
 
 export default CustomDestination;

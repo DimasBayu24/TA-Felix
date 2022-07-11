@@ -9,6 +9,16 @@ import { useEffect, useState } from "react";
 import Axios from "axios";
 import { Row, Col } from "antd";
 import {
+  BorderBottomOutlined,
+  BorderTopOutlined,
+  RadiusBottomleftOutlined,
+  RadiusBottomrightOutlined,
+  RadiusUpleftOutlined,
+  RadiusUprightOutlined,
+} from "@ant-design/icons";
+import { Divider, notification } from "antd";
+
+import {
   Cascader,
   Checkbox,
   DatePicker,
@@ -65,6 +75,7 @@ const Download = () => {
     console.log(values);
     const a = values.orderdate.format("YYYY-MM-DD");
     const newDate = new Date(a);
+
     console.log("oke ", values.orderdate.format("YYYY-MM-DD"));
     UserService.orderHolidayPackage(
       values.fullname,
@@ -78,7 +89,10 @@ const Download = () => {
       Product.Duration
     ).then(
       (response) => {
-        window.location.reload();
+        // window.location.reload();
+        openNotification("top");
+        form.resetFields();
+        window.scrollTo(0, 0);
       },
       (error) => {}
     );
@@ -280,6 +294,13 @@ const Download = () => {
     </div> */}
     </div>
   );
+};
+const openNotification = (placement) => {
+  notification.info({
+    message: `Order has been created`,
+    description: "Please check your email for continue the payment",
+    placement,
+  });
 };
 
 export default Download;
